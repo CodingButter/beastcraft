@@ -2,7 +2,7 @@ local utils = require(BEASTCRAFT_ROOT .. "core.utils")
 local class = require(BEASTCRAFT_ROOT .. "core.Class")
 local Style = require(BEASTCRAFT_ROOT .. "dom.Style")
 local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
-local paintutils = require(BEASTCRAFT_ROOT .. "core.Shape")
+local shapes = require(BEASTCRAFT_ROOT .. "core.Shape")
 local Selector = require(BEASTCRAFT_ROOT .. "dom.selector")
 local focusedElement = nil
 local term = utils.window
@@ -92,7 +92,7 @@ local Element = class({
         local left, top, width, height = self:getBounds()
         if style.display ~= "none" then
             if style.backgroundColor ~= "transparent" then
-                paintutils.drawFilledBox(left, top, width, height, self.style.backgroundColor)
+                shapes.drawFilledBox(left, top, width, height, self.style.backgroundColor)
             else
                 if self.parent then
                     self.style.backgroundColor = self.parent.style.backgroundColor
