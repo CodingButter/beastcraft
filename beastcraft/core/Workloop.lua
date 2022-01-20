@@ -1,7 +1,7 @@
 local listeners = require(BEASTCRAFT_ROOT .. "managers.listeners")
 listeners.triggerEvent({"render"})
 local function startWorkLoop()
-    local speed = .2
+    local speed = .33
     for i = 1, 0, -speed do
         os.startTimer(1)
         sleep(speed)

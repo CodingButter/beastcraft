@@ -2,8 +2,8 @@
 -- @module[kind=gui] Shape
 local utils = require(BEASTCRAFT_ROOT .. "core.Utils")
 local shape = {}
-local term = utils.window
 local expect = require("cc.expect").expect
+local myWindow = utils.window
 
 --- Draw a filled rectangle.
 -- @tparam number x X coordinate of rectangle.
@@ -22,8 +22,8 @@ function shape.drawFilledBox(x, y, w, h, col)
     end
 
     for i = 1, h do
-        term.setCursorPos(x, y + i - 1)
-        term.blit((" "):rep(w), col:rep(w), col:rep(w))
+        myWindow.setCursorPos(x, y + i - 1)
+        myWindow.blit((" "):rep(w), col:rep(w), col:rep(w))
     end
 end
 
@@ -45,13 +45,13 @@ function shape.rectangle(x, y, w, h, col)
 
     for i = 1, h do
         if i == y or i == h then
-            term.setCursorPos(x, y + i - 1)
-            term.blit((" "):rep(w), col:rep(w), col:rep(w))
+            myWindow.setCursorPos(x, y + i - 1)
+            myWindow.blit((" "):rep(w), col:rep(w), col:rep(w))
         else
-            term.setCursorPos(x, y + i - 1)
-            term.blit(" ", col, col)
-            term.setCursorPos(x + w - 1, y + i - 1)
-            term.blit(" ", col, col)
+            myWindow.setCursorPos(x, y + i - 1)
+            myWindow.blit(" ", col, col)
+            myWindow.setCursorPos(x + w - 1, y + i - 1)
+            myWindow.blit(" ", col, col)
         end
     end
 end
@@ -69,15 +69,15 @@ function shape.triangle(x, y, w, h, col)
     expect(4, h, "number")
     expect(5, col, "number")
 
-    local oX, oY = term.getCursorPos()
-    local oCol = term.getBackgroundColour() -- restore stuff after painutils
+    local oX, oY = myWindow.getCursorPos()
+    local oCol = myWindow.getBackgroundColour() -- restore stuff after painutils
 
     paintutils.drawLine(x, y + h - 1, x + math.floor(w / 2), y, col)
     paintutils.drawLine(x + w - 1, y + h - 1, x + math.floor(w / 2), y, col)
     paintutils.drawLine(x, y + h - 1, x + w - 1, y + h - 1, col)
 
-    term.setCursorPos(oX, oY)
-    term.setBackgroundColour(oCol)
+    myWindow.setCursorPos(oX, oY)
+    myWindow.setBackgroundColour(oCol)
 end
 
 --- Draw a filled triangle. This has no gauruntee of working correctly.

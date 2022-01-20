@@ -1,6 +1,7 @@
 local utils = require(BEASTCRAFT_ROOT .. "core.utils")
 local class = require(BEASTCRAFT_ROOT .. "core.Class")
 local Style = require(BEASTCRAFT_ROOT .. "dom.Style")
+local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
 local paintutils = require(BEASTCRAFT_ROOT .. "core.Shape")
 local Selector = require(BEASTCRAFT_ROOT .. "dom.selector")
 local focusedElement = nil
@@ -98,11 +99,10 @@ local Element = class({
                 end
             end
             if self.text then
-                term.setBackgroundColor(backgroundColor)
-                term.setTextColor(color)
-                term.setCursorPos(left + style.paddingLeft + 1, top + style.paddingTop)
-                term.write(self.text)
-                term.setCursorPos(10, 10)
+                utils.window.setBackgroundColor(backgroundColor)
+                utils.window.setTextColor(color)
+                utils.window.setCursorPos(left + style.paddingLeft + 1, top + style.paddingTop)
+                utils.window.write(self.text)
             end
             table.sort(self.children, function(a, b)
                 return a.style.zIndex < b.style.zIndex
@@ -149,6 +149,12 @@ local Element = class({
     end,
     getElementsByAttribute = function(self, attribute)
         return Selector.getElementsByAttribute(self, attribute)
+    end,
+    addEventListener = function(self, event, func)
+        return listener.addEventListener(event, func)
+    end,
+    removeEventListener = function(self, eventName, listenerId)
+        listener.removeEventListener(eventName, listenerId)
     end
 })
 

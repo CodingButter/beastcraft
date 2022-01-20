@@ -9,7 +9,13 @@ local function createElement(tag, props, text)
     return newElement
 end
 
-local body = createElement("body", {})
+local body = createElement("body", {
+    style = {
+        left = 1,
+        top = 1
+    },
+    children = {}
+})
 
 local function triggerEvent(event)
     body:event(event)
