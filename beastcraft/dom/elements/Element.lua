@@ -109,8 +109,6 @@ local Element = class({
             end)
             for k, v in ipairs(self.children) do
                 v:render()
-                term.setBackgroundColor(colors.black)
-                term.setTextColor(colors.white)
             end
         end
     end,
