@@ -10,7 +10,7 @@ local Element = class({
     id = nil,
     children = {},
     text = false,
-    type = "Element",
+    type = "element",
     constructor = function(self, tag, props, text)
         if props == nil then
             error("props not defined", 2)

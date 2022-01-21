@@ -7,7 +7,7 @@ local workLoop = require(BEASTCRAFT_ROOT .. "core.Workloop")
 local function addChildren(el)
     local children = el.children
     el.children = {}
-    if el.children.type == "Element" then
+    if el.children.type == "element" then
         addChildren(children)
         return el
     end

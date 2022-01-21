@@ -1,5 +1,5 @@
 local class = require(BEASTCRAFT_ROOT .. "core.class")
-local Element = require(BEASTCRAFT_ROOT .. "dom.elements.Element")
+local Element = require(BEASTCRAFT_ROOT .. "dom.elements.element")
 local Style = require(BEASTCRAFT_ROOT .. "dom.style")
 local shape = require(BEASTCRAFT_ROOT .. "core.shape")
 

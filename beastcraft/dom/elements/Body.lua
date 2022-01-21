@@ -1,5 +1,5 @@
 local class = require(BEASTCRAFT_ROOT .. "core.class")
-local Element = require(BEASTCRAFT_ROOT .. "dom.elements.Element")
+local Element = require(BEASTCRAFT_ROOT .. "dom.elements.element")
 local body = class({
     constructor = function(self, props, text)
         props.style = {
