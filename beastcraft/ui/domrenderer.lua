@@ -3,7 +3,7 @@ local rootElement = nil
 local utils = require(BEASTCRAFT_ROOT .. "core.utils")
 local stateManager = require(BEASTCRAFT_ROOT .. "managers.state")
 local listeners = require(BEASTCRAFT_ROOT .. "managers.listeners")
-local workLoop = require(BEASTCRAFT_ROOT .. "core.Workloop")
+local workLoop = require(BEASTCRAFT_ROOT .. "core.workloop")
 local function addChildren(el)
     local children = el.children
     el.children = {}
