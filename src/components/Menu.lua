@@ -13,6 +13,6 @@ local Menu = function(props)
             highlightColor = colors.lightGray,
             borderColor = colors.yellow
         }
-    })
+    }, "Toggle Menu")
 end
 return Menu
