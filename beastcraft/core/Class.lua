@@ -1,4 +1,4 @@
-local Utils = require(BEASTCRAFT_ROOT .. "core.Utils")
+local utils = require(BEASTCRAFT_ROOT .. "core.utils")
 local class = function(classDef, parentClass)
     -- So we dont forget that these two methods will get overwritten
     if classDef.super or classDef.new then

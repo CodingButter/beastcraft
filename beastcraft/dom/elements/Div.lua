@@ -1,5 +1,5 @@
-local utils = require(BEASTCRAFT_ROOT .. "core.Utils")
-local class = require(BEASTCRAFT_ROOT .. "core.Class")
+local utils = require(BEASTCRAFT_ROOT .. "core.utils")
+local class = require(BEASTCRAFT_ROOT .. "core.class")
 local Element = require(BEASTCRAFT_ROOT .. "dom.elements.Element")
 local div = class({
     constructor = function(self, props, text)

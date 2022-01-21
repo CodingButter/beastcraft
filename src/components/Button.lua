@@ -1,6 +1,6 @@
 local button = require"beastcraft".ui.button
 local state = require"beastcraft".state
-local MenuContext = require "src.context.MenuContext"
+local MenuContext = require "src.context.menucontext"
 
 local Button = function(props) -- Yeah we got props boys
     local pressed, setPressed = state.useState(false)

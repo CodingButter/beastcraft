@@ -1,9 +1,9 @@
 local div = require"beastcraft".ui.div
 local state = require"beastcraft".state
 local monitor = require"beastcraft".utils.monitor
-local Button = require "src.components.Button"
-local Menu = require "src.components.Menu"
-local MenuContext = require "src.context.MenuContext"
+local Button = require "src.components.button"
+local Menu = require "src.components.menu"
+local MenuContext = require "src.context.menucontext"
 
 local App = function()
     local WIDTH, HEIGHT = monitor.getSize()

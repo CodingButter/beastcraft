@@ -1,8 +1,8 @@
 local utils = require(BEASTCRAFT_ROOT .. "core.utils")
-local class = require(BEASTCRAFT_ROOT .. "core.Class")
-local Style = require(BEASTCRAFT_ROOT .. "dom.Style")
+local class = require(BEASTCRAFT_ROOT .. "core.class")
+local Style = require(BEASTCRAFT_ROOT .. "dom.style")
 local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
-local shapes = require(BEASTCRAFT_ROOT .. "core.Shape")
+local shapes = require(BEASTCRAFT_ROOT .. "core.shape")
 local Selector = require(BEASTCRAFT_ROOT .. "dom.selector")
 local focusedElement = nil
 local term = term

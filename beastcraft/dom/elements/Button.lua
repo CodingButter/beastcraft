@@ -1,7 +1,7 @@
-local class = require(BEASTCRAFT_ROOT .. "core.Class")
+local class = require(BEASTCRAFT_ROOT .. "core.class")
 local Element = require(BEASTCRAFT_ROOT .. "dom.elements.Element")
-local Style = require(BEASTCRAFT_ROOT .. "dom.Style")
-local shape = require(BEASTCRAFT_ROOT .. "core.Shape")
+local Style = require(BEASTCRAFT_ROOT .. "dom.style")
+local shape = require(BEASTCRAFT_ROOT .. "core.shape")
 
 local button = class({
 

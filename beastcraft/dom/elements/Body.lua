@@ -1,4 +1,4 @@
-local class = require(BEASTCRAFT_ROOT .. "core.Class")
+local class = require(BEASTCRAFT_ROOT .. "core.class")
 local Element = require(BEASTCRAFT_ROOT .. "dom.elements.Element")
 local body = class({
     constructor = function(self, props, text)

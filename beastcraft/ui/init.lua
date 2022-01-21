@@ -1,8 +1,8 @@
 return {
-    renderDom = require(BEASTCRAFT_ROOT .. "ui.domRenderer"),
-    div = require(BEASTCRAFT_ROOT .. "dom.elements.Div"),
-    button = require(BEASTCRAFT_ROOT .. "dom.elements.Button"),
-    input = require(BEASTCRAFT_ROOT .. "dom.elements.Input"),
-    ul = require(BEASTCRAFT_ROOT .. "dom.elements.Ul"),
-    body = require(BEASTCRAFT_ROOT .. "dom.elements.Body")
+    renderDom = require(BEASTCRAFT_ROOT .. "ui.domrenderer"),
+    div = require(BEASTCRAFT_ROOT .. "dom.elements.div"),
+    button = require(BEASTCRAFT_ROOT .. "dom.elements.button"),
+    input = require(BEASTCRAFT_ROOT .. "dom.elements.input"),
+    ul = require(BEASTCRAFT_ROOT .. "dom.elements.ul"),
+    body = require(BEASTCRAFT_ROOT .. "dom.elements.body")
 }
