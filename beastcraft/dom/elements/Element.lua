@@ -5,7 +5,7 @@ local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
 local shapes = require(BEASTCRAFT_ROOT .. "core.Shape")
 local Selector = require(BEASTCRAFT_ROOT .. "dom.selector")
 local focusedElement = nil
-local term = utils.window
+local term = term
 local Element = class({
     id = nil,
     children = {},
@@ -52,6 +52,13 @@ local Element = class({
     monitor_touch = function(self, event)
         self:mouse_click(event)
     end,
+    mouse_up = function(self, event)
+        self:onRelease(event)
+    end,
+    onRelease = function(self, event)
+    end,
+    onClick = function(self, event)
+    end,
     mouse_click = function(self, event)
         if self.style.display == "none" then
             return false
@@ -92,17 +99,22 @@ local Element = class({
         local left, top, width, height = self:getBounds()
         if style.display ~= "none" then
             if style.backgroundColor ~= "transparent" then
-                shapes.drawFilledBox(left, top, width, height, self.style.backgroundColor)
+                if style.borderColor then
+                    shapes.drawButton(left, top, width, height, style.borderColor, style.highlightColor,
+                        style.backgroundColor, self.parent.style.backgroundColor)
+                else
+                    shapes.drawFilledBox(left, top, width, height, self.style.backgroundColor)
+                end
             else
                 if self.parent then
                     self.style.backgroundColor = self.parent.style.backgroundColor
                 end
             end
             if self.text then
-                utils.window.setBackgroundColor(backgroundColor)
-                utils.window.setTextColor(color)
-                utils.window.setCursorPos(left + style.paddingLeft + 1, top + style.paddingTop)
-                utils.window.write(self.text)
+                term.setBackgroundColor(backgroundColor)
+                term.setTextColor(color)
+                term.setCursorPos(left + style.paddingLeft + 3, top + style.paddingTop + 1)
+                term.write(self.text)
             end
             table.sort(self.children, function(a, b)
                 return a.style.zIndex < b.style.zIndex
@@ -113,6 +125,12 @@ local Element = class({
         end
     end,
     event = function(self, event)
+        if event[1] ~= "monitor_touch" or event[1] ~= "mouse_click" then
+            for i = #self.children, 1, -1 do
+                local v = self.children[i]
+                v:event(event)
+            end
+        end
         local childClicked = false
         for i = #self.children, 1, -1 do
             local v = self.children[i]

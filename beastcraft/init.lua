@@ -5,5 +5,6 @@ return {
     document = require(BEASTCRAFT_ROOT .. "dom"),
     ui = require(BEASTCRAFT_ROOT .. "ui"),
     state = require(BEASTCRAFT_ROOT .. "managers.state"),
-    class = require(BEASTCRAFT_ROOT .. "core.class")
+    class = require(BEASTCRAFT_ROOT .. "core.class"),
+    utils = require(BEASTCRAFT_ROOT .. "core.Utils")
 }

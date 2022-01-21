@@ -1,12 +1,10 @@
 local class = require(BEASTCRAFT_ROOT .. "core.Class")
 local Element = require(BEASTCRAFT_ROOT .. "dom.elements.Element")
 local Style = require(BEASTCRAFT_ROOT .. "dom.Style")
+local shape = require(BEASTCRAFT_ROOT .. "core.Shape")
 
 local button = class({
-    style = {
-        backgroundColor = colors.gray,
-        focusedBackgroundColor = colors.lightGray
-    },
+
     constructor = function(self, props, text)
         self.super.constructor(self, "button", props, text)
     end,

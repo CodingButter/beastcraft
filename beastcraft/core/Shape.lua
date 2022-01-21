@@ -1,9 +1,7 @@
 --- Draw various shapes on the screen.
 -- @module[kind=gui] Shape
-local utils = require(BEASTCRAFT_ROOT .. "core.Utils")
 local shape = {}
 local expect = require("cc.expect").expect
-local myWindow = utils.window
 
 --- Draw a filled rectangle.
 -- @tparam number x X coordinate of rectangle.
@@ -11,7 +9,7 @@ local myWindow = utils.window
 -- @tparam number w Width of rectangle.
 -- @tparam number h Height of rectangle.
 -- @tparam number|string col Colour of rectangle, accepts blit or `colours.` colour.
-function shape.drawFilledBox(x, y, w, h, col)
+function shape.drawFilledBox(x, y, w, h, col, ch, chcol)
     expect(1, x, "number")
     expect(2, y, "number")
     expect(3, w, "number")
@@ -20,10 +18,13 @@ function shape.drawFilledBox(x, y, w, h, col)
     if type(col) == "number" then
         col = colours.toBlit(col)
     end
-
+    chcol = chcol or col
+    if type(chcol) == "number" then
+        chcol = colours.toBlit(chcol)
+    end
     for i = 1, h do
-        myWindow.setCursorPos(x, y + i - 1)
-        myWindow.blit((" "):rep(w), col:rep(w), col:rep(w))
+        term.setCursorPos(x, y + i - 1)
+        term.blit((ch or " "):rep(w), chcol:rep(w), col:rep(w))
     end
 end
 
@@ -33,7 +34,7 @@ end
 -- @tparam number w Width of rectangle.
 -- @tparam number h Height of rectangle.
 -- @tparam number|string col Colour of rectangle, accepts blit or `colours.` colour.
-function shape.rectangle(x, y, w, h, col)
+function shape.rectangle(x, y, w, h, col, ch)
     expect(1, x, "number")
     expect(2, y, "number")
     expect(3, w, "number")
@@ -42,16 +43,15 @@ function shape.rectangle(x, y, w, h, col)
     if type(col) == "number" then
         col = colours.toBlit(col)
     end
-
     for i = 1, h do
         if i == y or i == h then
-            myWindow.setCursorPos(x, y + i - 1)
-            myWindow.blit((" "):rep(w), col:rep(w), col:rep(w))
+            term.setCursorPos(x, y + i - 1)
+            term.blit((ch or " "):rep(w), col:rep(w), col:rep(w))
         else
-            myWindow.setCursorPos(x, y + i - 1)
-            myWindow.blit(" ", col, col)
-            myWindow.setCursorPos(x + w - 1, y + i - 1)
-            myWindow.blit(" ", col, col)
+            term.setCursorPos(x, y + i - 1)
+            term.blit(ch or " ", col, col)
+            term.setCursorPos(x + w - 1, y + i - 1)
+            term.blit(ch or " ", col, col)
         end
     end
 end
@@ -69,15 +69,15 @@ function shape.triangle(x, y, w, h, col)
     expect(4, h, "number")
     expect(5, col, "number")
 
-    local oX, oY = myWindow.getCursorPos()
-    local oCol = myWindow.getBackgroundColour() -- restore stuff after painutils
+    local oX, oY = term.getCursorPos()
+    local oCol = term.getBackgroundColour() -- restore stuff after painutils
 
     paintutils.drawLine(x, y + h - 1, x + math.floor(w / 2), y, col)
     paintutils.drawLine(x + w - 1, y + h - 1, x + math.floor(w / 2), y, col)
     paintutils.drawLine(x, y + h - 1, x + w - 1, y + h - 1, col)
 
-    myWindow.setCursorPos(oX, oY)
-    myWindow.setBackgroundColour(oCol)
+    term.setCursorPos(oX, oY)
+    term.setBackgroundColour(oCol)
 end
 
 --- Draw a filled triangle. This has no gauruntee of working correctly.
@@ -116,6 +116,27 @@ function shape.ellipses(centerX, centerY, width, height, colour)
             end
         end
     end
+end
+
+function shape.drawButton(x, y, width, height, borderColor, highlightColor, innerColor, backgroundColor)
+    width = width - 1
+    height = height - 1
+    shape.drawFilledBox(x, y - 1, 1, 1, borderColor, "\159", backgroundColor) -- upper right border
+    shape.drawFilledBox(x, y, 1, 1, borderColor, "\149", backgroundColor) -- left border
+    shape.drawFilledBox(x + 1, y, 1, 1, innerColor, "\151", highlightColor) -- left corner highlight
+    shape.drawFilledBox(x + 1, y - 1, width - 1, 1, borderColor, "\143", backgroundColor) -- upper border
+    shape.drawFilledBox(x + 2, y, width - 2, 1, innerColor, "\131", highlightColor) -- upper highlight
+    shape.drawFilledBox(x + width, y - 1, 1, 1, backgroundColor, "\144", borderColor) -- right border
+    shape.drawFilledBox(x + width, y, 1, 1, backgroundColor, "\149", borderColor) -- upper right corner
+    for i = 1, height + 1 do
+        shape.drawFilledBox(x, y + i, 1, 1, borderColor, "\149", backgroundColor) -- left border
+        shape.drawFilledBox(x + 1, y + i, 1, 1, innerColor, "\149", highlightColor) -- left highlight
+        shape.drawFilledBox(x + 2, y + i, width - 2, 1, innerColor) -- inner area
+        shape.drawFilledBox(x + width, y + i, 1, 1, backgroundColor, "\149", borderColor) -- right border
+    end
+    shape.drawFilledBox(x, y + height + 1, 1, 1, backgroundColor, "\130", borderColor) -- bottom left corner
+    shape.drawFilledBox(x + 1, y + height + 1, width, 1, backgroundColor, "\131", borderColor) -- bottom border
+    shape.drawFilledBox(x + width, y + height + 1, 1, 1, backgroundColor, "\129", borderColor) -- bottom Right Corner
 end
 
 --- Draws a filled ellipses.

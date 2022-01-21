@@ -1,5 +1,6 @@
 local Elements = require(BEASTCRAFT_ROOT .. "dom.elements")
-
+local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
+local utils = require(BEASTCRAFT_ROOT .. "core.Utils")
 local elementStore = {}
 local root = false
 
@@ -20,7 +21,10 @@ local body = createElement("body", {
 local function triggerEvent(event)
     body:event(event)
 end
-
+listener.addEventListener("monitor_touch", triggerEvent)
+listener.addEventListener("mouse_click", triggerEvent)
+listener.addEventListener("mouse_up", triggerEvent)
+listener.addEventListener("timer", triggerEvent)
 local function getElementById(idName)
     return body:getElementById(idName)
 end

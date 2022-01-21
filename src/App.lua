@@ -1,28 +1,32 @@
-local ui = require"beastcraft".ui
+local div = require"beastcraft".ui.div
+local state = require"beastcraft".state
+local monitor = require"beastcraft".utils.monitor
+local Button = require "src.components.Button"
+local MenuContext = require "src.context.MenuContext"
 
 local App = function()
-    local WIDTH, HEIGHT = term.getSize()
-    return ui.div({
-        id = "app",
+    local WIDTH, HEIGHT = monitor.getSize()
+    local showMenu, setShowMenu = state.useState(false)
+
+    local toggleMenu = function()
+        setShowMenu(function(currentState)
+            return not currentState
+        end)
+    end
+
+    return div({
         style = {
             top = 1,
             left = 1,
             width = WIDTH,
             height = HEIGHT,
-            backgroundColor = colors.white
+            backgroundColor = colors.blue
         },
-        children = {ui.button({
-            style = {
-                width = 15,
-                height = 3,
-                backgroundColor = colors.gray,
-                color = colors.white,
-                top = 4,
-                left = 0
-            }
-        }, "button")}
+        children = MenuContext:Provider({
+            value = {state, toggleMenu},
+            children = {Button()}
+        })
     })
 end
-
 return App
 

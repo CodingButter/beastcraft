@@ -1,5 +1,5 @@
 local rootComponent = nil
-local rootElement
+local rootElement = nil
 local utils = require(BEASTCRAFT_ROOT .. "core.utils")
 local stateManager = require(BEASTCRAFT_ROOT .. "managers.state")
 local listeners = require(BEASTCRAFT_ROOT .. "managers.listeners")
@@ -22,20 +22,19 @@ local function render()
 
     stateManager.resetIndex()
     local el = addChildren(rootComponent())
-    --     rootElement.children = {}
-    --     rootElement:appendChild(el)
-
-    local WIDTH, HEIGHT = term.getSize()
-
+    local WIDTH, HEIGHT = utils.monitor.getSize()
+    rootElement.children = {}
+    rootElement:appendChild(el)
     utils.window.reposition(1, 1, WIDTH, HEIGHT)
-    -- utils.window.setVisible(false)
-    el:render()
+    utils.window.setVisible(false)
+    rootElement:render()
     utils.window.setVisible(true)
 
 end
 
-local function renderDom(rc)
+local function renderDom(rc, re)
     rootComponent = rc
+    rootElement = re
     listeners.addEventListener("render", render)
     workLoop.startWorkLoop()
 end

@@ -1,5 +1,4 @@
 local pretty = require "cc.pretty"
-
 local function switch(val, actions)
     local action = actions[val] or actions.default or function()
     end
@@ -64,12 +63,14 @@ if monitor then
     monitor.setTextScale(.5)
     term.redirect(monitor)
 end
+monitor = monitor or term.current()
 local WIDTH, HEIGHT = term.getSize()
 local window = window.create(term.current(), 1, 1, WIDTH, HEIGHT, true)
-
+term.redirect(window)
 return {
     switch = switch,
     table = table,
     debugger = debugger,
-    window = window
+    window = window,
+    monitor = monitor
 }

@@ -1,3 +1,5 @@
 local beastcraft = require "beastcraft"
 local App = require "src.App"
-beastcraft.ui.renderDom(App)
+
+local body = beastcraft.document.body
+beastcraft.ui.renderDom(App, body)
