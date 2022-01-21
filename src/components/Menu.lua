@@ -9,7 +9,7 @@ local Menu = function(props)
             top = 2,
             display = props.showMenu and "block" or "none",
             backgroundColor = colors.gray,
-            color = white,
+            color = colors.white,
             highlightColor = colors.lightGray,
             borderColor = colors.yellow
         }
