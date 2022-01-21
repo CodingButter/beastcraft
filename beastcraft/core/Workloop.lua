@@ -10,6 +10,7 @@ local function startWorkLoop()
     while true do
         local event = {os.pullEvent()}
         listeners.triggerEvent(event)
+        listeners.triggerEvent({"render"})
         if event[1] == "timer" then
             listeners.triggerEvent({"render"})
             os.startTimer(1)

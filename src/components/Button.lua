@@ -23,7 +23,7 @@ local Button = function(props) -- Yeah we got props boys
         onRelease = function(self, event)
             setPressed(false)
         end
-    }, "Menu " .. (menuState and "Opened" or "Closed"))
+    }, "Menu " .. (menuState == true and "Opened" or "Closed"))
 end
 
 return Button

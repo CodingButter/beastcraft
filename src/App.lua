@@ -9,9 +9,7 @@ local App = function()
     local showMenu, setShowMenu = state.useState(false)
 
     local toggleMenu = function()
-        setShowMenu(function(currentState)
-            return not currentState
-        end)
+        setShowMenu(showMenu == false)
     end
 
     return div({
@@ -23,8 +21,10 @@ local App = function()
             backgroundColor = colors.blue
         },
         children = MenuContext:Provider({
-            value = {state, toggleMenu},
-            children = {Button()}
+            value = {showMenu, toggleMenu},
+            children = function()
+                return {Button()}
+            end
         })
     })
 end

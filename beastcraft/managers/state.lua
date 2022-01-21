@@ -8,7 +8,7 @@ local function useState(initState)
     local frozenIndex = hookIndex
     local function setState(newVal)
         if type(newVal) == "function" then
-            newVal = newVal(hookStorage[frozenIndex])
+            newVal = newVal(state)
         end
         hookStorage[frozenIndex] = newVal
     end
@@ -49,13 +49,13 @@ local function resetIndex()
 end
 
 local function createContext(val)
-    local index = #contextStorage + 1
+    local index = #hookStorage + 1
     contextStorage[index] = val
     return {
         index = index,
         Provider = function(self, props)
             contextStorage[index] = props.value
-            return props.children
+            return props.children()
         end
     }
 end
