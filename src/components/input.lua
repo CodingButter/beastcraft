@@ -19,9 +19,6 @@ local Input = function(props) -- Yeah we got props boys
             highlightColor = pressed and colors.gray or colors.lightGray,
             borderColor = colors.yellow
         },
-        onFocus = function(self, event)
-            debugger.print("Input is focused")
-        end,
         onChange = function(self, value)
             setLabel(value)
         end,

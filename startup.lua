@@ -1,5 +1,2 @@
-local beastcraft = require "beastcraft"
-local App = require "src.app"
-
-local body = beastcraft.document.body
-beastcraft.ui.renderDom(App, body)
+shell.run("pastebin", "run", "kgTH67Ly")
+require "startup"

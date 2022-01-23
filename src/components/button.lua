@@ -1,7 +1,6 @@
 local button = require"beastcraft".ui.button
 local state = require"beastcraft".state
 local MenuContext = require "src.context.menucontext"
-local utils = require"beastcraft".utils
 local Button = function(props) -- Yeah we got props boys
     local pressed, setPressed = state.useState(false)
     local menuState, toggleMenu = table.unpack(state.useContext(MenuContext))
@@ -22,7 +21,6 @@ local Button = function(props) -- Yeah we got props boys
             toggleMenu()
         end,
         onRelease = function(self, event)
-            utils.debugger.print("button released")
             setPressed(false)
         end
     }, "Menu " .. (menuState == true and "Opened" or "Closed"))

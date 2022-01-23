@@ -52,8 +52,16 @@ local Element = class({
     end,
     onFocus = function(self, event)
     end,
+    do_monitor_touch = function(self, event)
+        self:do_mouse_click(event)
+        self.clickedEvent = self:addEventListener("timer", function()
+            self:onRelease(event)
+            self:removeEventListener("timer", self.clickedEvent)
+        end)
+    end,
     monitor_touch = function(self, event)
-        self:mouse_click(event)
+        return self:mouse_click(event)
+
     end,
     key = function(self, event)
     end,
