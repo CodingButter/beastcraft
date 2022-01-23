@@ -14,12 +14,11 @@ local input = class({
         self.super.do_focus(self, event)
     end,
     key = function(self, event)
-        if event[2] == 14 and self.focused then
+        if keys.getName(event[2]) == "backspace" and self.focused then
             self.text = string.sub(self.text, 1, #self.text - 2) .. "_"
             if self.text == "__" then
                 self.text = "_"
             end
-            self:onChange(self.text)
         end
         self:onChange(self.text)
     end,
