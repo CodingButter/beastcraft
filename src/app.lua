@@ -27,7 +27,8 @@ local App = function()
             value = {showMenu, toggleMenu},
             children = function()
                 return {Input(), Button(), Menu({
-                    showMenu = showMenu
+                    showMenu = showMenu,
+                    toggleMenu = toggleMenu
                 })}
             end
         })

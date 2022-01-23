@@ -13,7 +13,10 @@ local Menu = function(props)
             color = colors.white,
             highlightColor = colors.lightGray,
             borderColor = colors.yellow
-        }
+        },
+        onLostFocus = function(self, event)
+            -- props.toggleMenu()
+        end
     }, "Toggle menu")
 end
 return Menu

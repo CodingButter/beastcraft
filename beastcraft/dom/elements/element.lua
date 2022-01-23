@@ -50,6 +50,10 @@ local Element = class({
     end,
     onLostFocus = function(self)
     end,
+    loseFocus = function(self, event)
+        self.focused = false
+        self:onLostFocus(event)
+    end,
     onFocus = function(self, event)
     end,
     do_monitor_touch = function(self, event)
@@ -129,7 +133,7 @@ local Element = class({
             if self.text then
                 term.setBackgroundColor(backgroundColor)
                 term.setTextColor(color)
-                term.setCursorPos(left + style.paddingLeft + 3, top + style.paddingTop + 1)
+                term.setCursorPos(left + style.paddingLeft + 2, top + style.paddingTop + 1)
                 term.write(self.text)
             end
             table.sort(self.children, function(a, b)
