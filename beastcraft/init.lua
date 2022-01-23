@@ -1,10 +1,9 @@
-BEASTCRAFT_ROOT = fs.getDir(shell.getRunningProgram()) .. ".beastcraft."
-local utils = require(BEASTCRAFT_ROOT .. "core.utils")
+local utils = require("core.utils")
 
 return {
-    document = require(BEASTCRAFT_ROOT .. "dom"),
-    ui = require(BEASTCRAFT_ROOT .. "ui"),
-    state = require(BEASTCRAFT_ROOT .. "managers.state"),
-    class = require(BEASTCRAFT_ROOT .. "core.class"),
-    utils = require(BEASTCRAFT_ROOT .. "core.utils")
+    document = require("dom"),
+    ui = require("ui"),
+    state = require("managers.state"),
+    class = require("core.class"),
+    utils = require("core.utils")
 }

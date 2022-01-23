@@ -1,9 +1,9 @@
-local utils = require(BEASTCRAFT_ROOT .. "core.utils")
-local class = require(BEASTCRAFT_ROOT .. "core.class")
-local Style = require(BEASTCRAFT_ROOT .. "dom.style")
-local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
-local shapes = require(BEASTCRAFT_ROOT .. "core.shape")
-local Selector = require(BEASTCRAFT_ROOT .. "dom.selector")
+local utils = require("core.utils")
+local class = require("core.class")
+local Style = require("dom.style")
+local listener = require("managers.listeners")
+local shapes = require("core.shape")
+local Selector = require("dom.selector")
 local term = term
 local Element = class({
     id = nil,

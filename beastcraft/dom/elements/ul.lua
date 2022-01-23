@@ -1,6 +1,6 @@
-local class = require(BEASTCRAFT_ROOT .. "core.class")
-local Element = require(BEASTCRAFT_ROOT .. "dom.elements.element")
-local Style = require(BEASTCRAFT_ROOT .. "dom.style")
+local class = require("core.class")
+local Element = require("dom.elements.element")
+local Style = require("dom.style")
 local ul = class({
     style = Style:new({
         backgroundColor = colors.gray,

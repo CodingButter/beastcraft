@@ -1,6 +1,6 @@
-local class = require(BEASTCRAFT_ROOT .. "core.class")
-local debugger = require(BEASTCRAFT_ROOT .. "core.utils").debugger
-local Element = require(BEASTCRAFT_ROOT .. "dom.elements.element")
+local class = require("core.class")
+local debugger = require("core.utils").debugger
+local Element = require("dom.elements.element")
 local input = class({
     constructor = function(self, props, text)
         text = text or ""

@@ -1,6 +1,6 @@
-local Elements = require(BEASTCRAFT_ROOT .. "dom.elements")
-local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
-local utils = require(BEASTCRAFT_ROOT .. "core.utils")
+local Elements = require("dom.elements")
+local listener = require("managers.listeners")
+local utils = require("core.utils")
 local elementStore = {}
 local root = false
 local focused = {}

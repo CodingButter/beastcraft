@@ -1,4 +1,4 @@
-local class = require(BEASTCRAFT_ROOT .. "core.class")
+local class = require("core.class")
 
 local Style = class({
     zIndex = 1,
