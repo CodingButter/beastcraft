@@ -1,10 +1,10 @@
 local rootComponent = nil
 local rootElement = nil
-local utils = require(BEASTCRAFT_ROOT .. "core.utils")
-local dom = require(BEASTCRAFT_ROOT .. "dom")
-local stateManager = require(BEASTCRAFT_ROOT .. "managers.state")
-local listeners = require(BEASTCRAFT_ROOT .. "managers.listeners")
-local workLoop = require(BEASTCRAFT_ROOT .. "core.workloop")
+local utils = require("beastcraft.core.utils")
+local dom = require("beastcraft.dom")
+local stateManager = require("beastcraft.managers.state")
+local listeners = require("beastcraft.managers.listeners")
+local workLoop = require("beastcraft.core.workloop")
 local function addChildren(el)
     local children = el.children
     el.children = {}
