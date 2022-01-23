@@ -15,6 +15,7 @@ local App = function()
     end
 
     return div({
+        id = "main-app",
         style = {
             top = 1,
             left = 1,
@@ -25,7 +26,7 @@ local App = function()
         children = MenuContext:Provider({
             value = {showMenu, toggleMenu},
             children = function()
-                return {Input(),Button(), Menu({
+                return {Input(), Button(), Menu({
                     showMenu = showMenu
                 })}
             end

@@ -5,13 +5,13 @@ local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
 local shapes = require(BEASTCRAFT_ROOT .. "core.shape")
 local Selector = require(BEASTCRAFT_ROOT .. "dom.selector")
 local term = term
-local focused = nil
 local Element = class({
     id = nil,
     children = {},
     text = false,
     type = "element",
-    focuced = false,
+    keypressed = false,
+    appended = false,
     constructor = function(self, tag, props, text)
         if props == nil then
             error("props not defined", 2)
@@ -23,12 +23,15 @@ local Element = class({
         self.style = Style:new(props.style or {})
         self.tag = tag
         self.text = text or self.text
+        self.focused = props.focused or false
         self:getBounds()
-        if focused == self.id then self.focused=true end
+        if focused == self.id then
+            self.focused = true
+        end
     end,
     appendChild = function(self, _element)
-
         _element.parent = self
+        _element.appended = true
         _element:getBounds()
         if _element.style.backgroundColor == "transparent" then
             _element.style.backgroundColor = self.style.backgroundColor
@@ -45,25 +48,17 @@ local Element = class({
         _element.style.zIndex = self.style.zIndex + _element.style.zIndex
         table.insert(self.children, 1, _element)
     end,
-    loseFocus = function(self)
-        self.focused=false
-        self:onLostFocus()
+    onLostFocus = function(self)
     end,
-    onLostFocus = function(self)end,
-    onFocus = function(self,event)end,
-    setFocus = function(self, event)
-        focused = self.id
-        self:onFocus(event)
+    onFocus = function(self, event)
     end,
     monitor_touch = function(self, event)
         self:mouse_click(event)
     end,
-    key_down = function(self,event)
-        if self.focused == true and self.keypressed == false then self:change(event) end
-        self.keypressed = true
+    key = function(self, event)
     end,
-    key_up = function(self,event)
-        self.keypressed=false
+    key_up = function(self, event)
+        self.keypressed = false
     end,
     mouse_up = function(self, event)
         self:onRelease(event)
@@ -72,22 +67,20 @@ local Element = class({
     end,
     onClick = function(self, event)
     end,
+    do_focus = function(self, event)
+        self:onFocus(event)
+    end,
+    do_mouse_click = function(self, event)
+        self.focused = true
+        self:do_focus(event)
+        self:onClick(event, self)
+    end,
     mouse_click = function(self, event)
-        if self.style.display == "none" then
-            return false
-        end
         local left, top, width, height = self:getBounds()
         local x = event[3]
         local y = event[4]
         if x >= left and x < left + width and y >= top and y < top + height then
-            self:setFocus(event)
-            if self.onClick then
-                self:onClick(event)
-            end
             return true
-        end
-        if self.focused then
-            self:loseFocus()
         end
         return false
     end,
@@ -139,30 +132,6 @@ local Element = class({
             end
         end
     end,
-    event = function(self, event)
-        if event[1] ~= "monitor_touch" or event[1] ~= "mouse_click" then
-            for i = #self.children, 1, -1 do
-                local v = self.children[i]
-                v:event(event)
-            end
-        end
-        local childClicked = false
-        for i = #self.children, 1, -1 do
-            local v = self.children[i]
-            if v:event(event) then
-                if childClicked == false then
-                    childClicked = true
-                end
-            end
-        end
-        if childClicked then
-            return true
-        end
-        if self[event[1]] then
-            return self[event[1]](self, event)
-        end
-        return false
-    end,
     getUID = function(self)
         if self.id == nil then
             self.id = math.random(1, 1000)
@@ -188,5 +157,4 @@ local Element = class({
         listener.removeEventListener(eventName, listenerId)
     end
 })
-
 return Element

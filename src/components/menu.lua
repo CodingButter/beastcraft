@@ -2,6 +2,7 @@ local div = require"beastcraft".ui.div
 
 local Menu = function(props)
     return div({
+        id = "toggle-menu",
         style = {
             width = 18,
             height = 10,

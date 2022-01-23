@@ -1,22 +1,26 @@
 local input = require"beastcraft".ui.input
-
+local debugger = require"beastcraft".utils.debugger
 local state = require"beastcraft".state
 
 local Input = function(props) -- Yeah we got props boys
-    local label, setLabel = state.useState("Type Here")
+    local label, setLabel = state.useState("")
     return input({
+        id = "main-input",
+        placeholder = "Input field",
+        maxLength = 15,
         style = {
             left = 0,
-            top = 0,
-            width = 16,
+            top = 1,
+            width = math.max(16, #label + 5),
             height = 3,
+            focusedBackgroundColor = colors.lightGray,
             backgroundColor = pressed and colors.lightGray or colors.gray,
             color = colors.white,
             highlightColor = pressed and colors.gray or colors.lightGray,
             borderColor = colors.yellow
         },
         onFocus = function(self, event)
-            setLabel("")
+            debugger.print("Input is focused")
         end,
         onChange = function(self, value)
             setLabel(value)

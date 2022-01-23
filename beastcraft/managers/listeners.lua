@@ -1,9 +1,7 @@
-local debugger = require(BEASTCRAFT_ROOT.."core.utils").debugger
+local debugger = require(BEASTCRAFT_ROOT .. "core.utils").debugger
 local listeners = {}
 local function triggerEvent(event)
-    if event[1] ~= "render" and event[1]~="timer" then 
-        debugger.printTable(event)
-    end
+
     if listeners[event[1]] then
         for _, v in pairs(listeners[event[1]]) do
             v(event)

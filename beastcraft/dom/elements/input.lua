@@ -1,21 +1,37 @@
 local class = require(BEASTCRAFT_ROOT .. "core.class")
-local utils = require(BEASTCRAFT_ROOT.."core.utils").debugger
+local debugger = require(BEASTCRAFT_ROOT .. "core.utils").debugger
 local Element = require(BEASTCRAFT_ROOT .. "dom.elements.element")
 local input = class({
     constructor = function(self, props, text)
-        self.super.constructor(self, "input", props, text)
+        text = text or ""
+        local value = (#text > 1 or props.focused) and text or props.placeholder
+        self.super.constructor(self, "input", props, value)
     end,
     onChange = function(self)
 
     end,
-    change = function(self,event)
-        if event[2]==14 then self.text = string.sub(self.text,1,#self.text)
-            self:onChange(self.text)
-        else
-            self.text
-        end 
+    do_focus = function(self, event)
+        self.super.do_focus(self, event)
     end,
-   
+    key = function(self, event)
+        if event[2] == 14 and self.focused then
+            self.text = string.sub(self.text, 1, #self.text - 2) .. "_"
+            if self.text == "__" then
+                self.text = "_"
+            end
+            self:onChange(self.text)
+        end
+        self:onChange(self.text)
+    end,
+    char = function(self, event)
+        local newText = ""
+        if self.focused then
+            if self.maxLength and #self.text <= self.maxLength then
+                self.text = string.sub(self.text, 1, #self.text - 1) .. event[2] .. "_"
+            end
+            self:onChange(self.text)
+        end
+    end
 }, Element)
 
 return function(props, text)

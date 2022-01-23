@@ -3,10 +3,16 @@ local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
 local utils = require(BEASTCRAFT_ROOT .. "core.utils")
 local elementStore = {}
 local root = false
+local focused = {}
 
 local function createElement(tag, props, text)
+    local elmIndex = #elementStore + 1
+    props.id = props.id or elmIndex
+    if focused == props.id then
+        props.focused = true
+    end
     local newElement = Elements[tag](props, text)
-    elementStore[#elementStore + 1] = newElement
+    elementStore[elmIndex] = newElement
     return newElement
 end
 
@@ -17,17 +23,30 @@ local body = createElement("body", {
     },
     children = {}
 })
-
+elementStore = {}
 local function triggerEvent(event)
-    body:event(event)
+    local triggered = false
+    for i = 1, #elementStore do
+        local elm = elementStore[i]
+        if elm[event[1]] then
+            local status = elm[event[1]](elm, event)
+            if status == true and triggered == false and elm["do_" .. event[1]] then
+                triggered = true
+                focused = elm.id
+                elm["do_" .. event[1]](elm, event)
+            end
+        end
+    end
 end
+
 listener.addEventListener("monitor_touch", triggerEvent)
 listener.addEventListener("mouse_click", triggerEvent)
 listener.addEventListener("mouse_up", triggerEvent)
 listener.addEventListener("timer", triggerEvent)
-listener.addEventListener("key_down",triggerEvent)
-listener.addEventListener("key_up",triggerEvent)
-listener.addEventListener("char",triggerEvent)
+listener.addEventListener("key", triggerEvent)
+listener.addEventListener("key_up", triggerEvent)
+listener.addEventListener("char", triggerEvent)
+
 local function getElementById(idName)
     return body:getElementById(idName)
 end
@@ -46,12 +65,28 @@ end
 local function renderElement(element)
     element:render()
 end
-
+local function resetElementStore()
+    elementStore = {}
+end
+local button = function(props, text)
+    return createElement("button", props, text)
+end
+local input = function(props, text)
+    return createElement("input", props, text)
+end
+local div = function(props, text)
+    return createElement("div", props, text)
+end
 return {
+    resetElementStore = resetElementStore,
+    renderElement = renderElement,
     body = body,
     createElement = createElement,
     getElementById = getElementById,
     getElementsByClassName = getElementsByClassName,
     getElementsByTagName = getElementsByTagName,
-    getElementsByAttribute = getElementsByAttribute
+    getElementsByAttribute = getElementsByAttribute,
+    button = button,
+    div = div,
+    input = input
 }
