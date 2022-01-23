@@ -1,7 +1,7 @@
 return {
-    body = require("dom.elements.body"),
-    button = require("dom.elements.button"),
-    div = require("dom.elements.div"),
-    input = require("dom.elements.input"),
-    ul = require("dom.elements.ul")
+    body = require("beastcraft.dom.elements.body"),
+    button = require("beastcraft.dom.elements.button"),
+    div = require("beastcraft.dom.elements.div"),
+    input = require("beastcraft.dom.elements.input"),
+    ul = require("beastcraft.dom.elements.ul")
 }

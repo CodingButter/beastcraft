@@ -1,7 +1,7 @@
 --- Draw various shapes on the screen.
 -- @module[kind=gui] Shape
 local shape = {}
-local expect = require("cc.expect").expect
+local expect = require("beastcraft.cc.expect").expect
 
 --- Draw a filled rectangle.
 -- @tparam number x X coordinate of rectangle.

@@ -1,4 +1,4 @@
-local debugger = require("core.utils").debugger
+local debugger = require("beastcraft.core.utils").debugger
 local listeners = {}
 local function triggerEvent(event)
 

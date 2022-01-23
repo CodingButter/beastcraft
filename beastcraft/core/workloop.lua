@@ -1,4 +1,4 @@
-local listeners = require("managers.listeners")
+local listeners = require("beastcraft.managers.listeners")
 listeners.triggerEvent({"render"})
 local function startWorkLoop()
     local speed = .2

@@ -1,7 +1,7 @@
 return {
-    renderDom = require("ui.domrenderer"),
-    div = require("dom").div,
-    button = require("dom").button,
-    input = require("dom").input,
-    ul = require("dom").ul
+    renderDom = require("beastcraft.ui.domrenderer"),
+    div = require("beastcraft.dom").div,
+    button = require("beastcraft.dom").button,
+    input = require("beastcraft.dom").input,
+    ul = require("beastcraft.dom").ul
 }

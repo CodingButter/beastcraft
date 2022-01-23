@@ -1,4 +1,4 @@
-local class = require("core.class")
+local class = require("beastcraft.core.class")
 
 local Style = class({
     zIndex = 1,
