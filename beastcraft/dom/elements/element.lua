@@ -4,13 +4,14 @@ local Style = require(BEASTCRAFT_ROOT .. "dom.style")
 local listener = require(BEASTCRAFT_ROOT .. "managers.listeners")
 local shapes = require(BEASTCRAFT_ROOT .. "core.shape")
 local Selector = require(BEASTCRAFT_ROOT .. "dom.selector")
-local focusedElement = nil
 local term = term
+local focused = nil
 local Element = class({
     id = nil,
     children = {},
     text = false,
     type = "element",
+    focuced = false,
     constructor = function(self, tag, props, text)
         if props == nil then
             error("props not defined", 2)
@@ -23,6 +24,7 @@ local Element = class({
         self.tag = tag
         self.text = text or self.text
         self:getBounds()
+        if focused == self.id then self.focused=true end
     end,
     appendChild = function(self, _element)
 
@@ -44,13 +46,24 @@ local Element = class({
         table.insert(self.children, 1, _element)
     end,
     loseFocus = function(self)
-
+        self.focused=false
+        self:onLostFocus()
     end,
+    onLostFocus = function(self)end,
+    onFocus = function(self,event)end,
     setFocus = function(self, event)
-        focusedElement = self:getUID()
+        focused = self.id
+        self:onFocus(event)
     end,
     monitor_touch = function(self, event)
         self:mouse_click(event)
+    end,
+    key_down = function(self,event)
+        if self.focused == true and self.keypressed == false then self:change(event) end
+        self.keypressed = true
+    end,
+    key_up = function(self,event)
+        self.keypressed=false
     end,
     mouse_up = function(self, event)
         self:onRelease(event)
@@ -73,7 +86,9 @@ local Element = class({
             end
             return true
         end
-        self:loseFocus()
+        if self.focused then
+            self:loseFocus()
+        end
         return false
     end,
     getBounds = function(self)
@@ -174,7 +189,4 @@ local Element = class({
     end
 })
 
-Element.getFocusedElement = function()
-    return focusedElement
-end
 return Element

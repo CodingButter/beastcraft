@@ -6,6 +6,7 @@ local Button = function(props) -- Yeah we got props boys
     local pressed, setPressed = state.useState(false)
     local menuState, toggleMenu = table.unpack(state.useContext(MenuContext))
     return button({
+        id="toggle-button",
         style = {
             left = 5,
             top = 5,

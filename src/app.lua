@@ -2,6 +2,7 @@ local div = require"beastcraft".ui.div
 local state = require"beastcraft".state
 local monitor = require"beastcraft".utils.monitor
 local Button = require "src.components.button"
+local Input = require "src.components.input"
 local Menu = require "src.components.menu"
 local MenuContext = require "src.context.menucontext"
 
@@ -24,7 +25,7 @@ local App = function()
         children = MenuContext:Provider({
             value = {showMenu, toggleMenu},
             children = function()
-                return {Button(), Menu({
+                return {Input(),Button(), Menu({
                     showMenu = showMenu
                 })}
             end
