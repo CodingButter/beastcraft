@@ -22,7 +22,6 @@ local Style = class({
     marginRight = 0,
     marginBottom = 0,
     backgroundColor = colors.lightGray,
-    focusedBackgroundColor = colors.blue,
     color = colors.black,
     position = "relative",
     margin = function(self, val)

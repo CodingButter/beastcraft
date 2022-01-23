@@ -9,7 +9,7 @@ local button = class({
         self.super.constructor(self, "button", props, text)
     end,
     render = function(self)
-        if Element.getFocusedElement() == self:getUID() and self.style.focusedBackgroundColor then
+        if self.focused and self.style.focusedBackgroundColor then
             local oldBgColor = self.style.backgroundColor
             self.style.backgroundColor = self.style.focusedBackgroundColor
             self.super.render(self)
