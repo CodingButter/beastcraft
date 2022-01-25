@@ -4,4 +4,3 @@ local App = require "src.app"
 
 local body = document.body
 renderDom(App, body)
-print("ran everything")

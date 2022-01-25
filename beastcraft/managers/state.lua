@@ -1,3 +1,4 @@
+local utils = require "beastcraft.core.utils"
 local hookStorage = {}
 local hookIndex = 1
 local contextStorage = {}
@@ -33,35 +34,35 @@ end
 
 local function useEffect(cb, depArray)
     local oldDeps = hookStorage[hookIndex]
-    local hasChanged = false
+    local hasChanged = true
 
     if oldDeps then
         hasChanged = utils.table.is(depArray, oldDeps) == false
     end
-    if hasChanged then
+    if hasChanged and depArray ~= nil then
         cb()
     end
     hookStorage[hookIndex] = depArray
+    hookIndex = hookIndex + 1
 end
 
 local function resetIndex()
     hookIndex = 1
 end
 
-local function createContext(val)
-    local index = #hookStorage + 1
-    contextStorage[index] = val
+local createContext = function(val)
+    local frozenIndex = #contextStorage + 1
+    contextStorage[frozenIndex] = val
     return {
-        index = index,
-        Provider = function(self, props)
-            contextStorage[index] = props.value
+        index = frozenIndex,
+        Provider = function(props)
+            contextStorage[frozenIndex] = props.value
             return props.children()
         end
     }
 end
-
-local function useContext(context)
-    return contextStorage[context.index]
+local useContext = function(ctx)
+    return contextStorage[ctx.index]
 end
 
 return {

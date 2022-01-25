@@ -34,11 +34,6 @@ local function triggerEvent(event)
                 triggered = true
                 focused = elm.id
                 elm["do_" .. event[1]](elm, event)
-
-            else
-                if focused ~= elm.id then
-                    elm:loseFocus(event)
-                end
             end
         end
     end

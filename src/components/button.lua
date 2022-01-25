@@ -1,29 +1,36 @@
 local button = require"beastcraft".ui.button
 local state = require"beastcraft".state
 local MenuContext = require "src.context.menucontext"
+local debugger = require"beastcraft".utils.debugger
 local Button = function(props) -- Yeah we got props boys
     local pressed, setPressed = state.useState(false)
-    local menuState, toggleMenu = table.unpack(state.useContext(MenuContext))
-    return button({
-        id = "toggle-button",
-        style = {
-            left = 5,
-            top = 8,
-            width = 16,
-            height = 3,
-            backgroundColor = pressed and colors.lightGray or colors.gray,
-            color = colors.white,
-            highlightColor = pressed and colors.gray or colors.lightGray,
-            borderColor = colors.yellow
-        },
-        onClick = function(self, event)
+    local label = (props.type == "toggle" and pressed) and props.toggleLabel or props.label
+    local togglePressed = function()
+        setPressed(pressed == false)
+    end
+    props.style.backgroundColor = pressed and colors.lightGray or colors.gray
+    props.style.color = colors.white
+    props.style.highlightColor = pressed and colors.gray or colors.lightGray
+    props.style.borderColor = colors.yellow
+    local onClick = props.onClick or function()
+    end
+    local onRelease = props.onRelease or function()
+    end
+    props.onClick = function(self, event)
+        if props.type == "toggle" then
+            togglePressed()
+        else
             setPressed(true)
-            toggleMenu()
-        end,
-        onRelease = function(self, event)
+        end
+        onClick(self, event)
+    end
+    props.onRelease = function(self, event)
+        if props.type ~= "toggle" then
             setPressed(false)
         end
-    }, "Menu " .. (menuState == true and "Opened" or "Closed"))
+        onRelease(self, event)
+    end
+    return button(props, label)
 end
 
 return Button

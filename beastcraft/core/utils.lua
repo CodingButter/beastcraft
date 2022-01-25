@@ -6,6 +6,31 @@ local function switch(val, actions)
 end
 
 local table = {
+    is = function(_tbl1, _tbl2)
+        local function recursion(t1, t2)
+            if type(t1) ~= type(t2) then
+                return false
+            end
+            if type(t1) == "table" then
+                for k, v in pairs(t1) do
+                    if not t2[k] then
+                        return false
+                    end
+                    if type(v) ~= type(t2[k]) then
+                        return false
+                    end
+                    if type(v) == "table" then
+                        return recursion(v, t2[k])
+                    end
+                    if t2[k] ~= v then
+                        return false
+                    end
+                end
+            end
+            return true
+        end
+        return recursion(_tbl1, _tbl2)
+    end,
     map = function(_tbl, f)
         local t = {}
         local i = 1

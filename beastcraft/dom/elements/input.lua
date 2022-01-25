@@ -10,17 +10,7 @@ local input = class({
     onChange = function(self)
 
     end,
-    onLostFocus = function(self, event)
-        debugger.print("lost focus")
-        if string.sub(self.text, #self.text) == "_" then
-            self.text = string.sub(self.text, 1, #self.text - 1)
-            self:onChange(self.text)
-        end
-    end,
     do_focus = function(self, event)
-        if self.maxLength and #self.text <= self.maxLength and self.text ~= self.placeholder then
-            self:onChange(self.text .. "_")
-        end
         self.super.do_focus(self, event)
     end,
     key = function(self, event)

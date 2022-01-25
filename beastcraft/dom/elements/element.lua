@@ -50,10 +50,6 @@ local Element = class({
     end,
     onLostFocus = function(self)
     end,
-    loseFocus = function(self, event)
-        self.focused = false
-        self:onLostFocus(event)
-    end,
     onFocus = function(self, event)
     end,
     do_monitor_touch = function(self, event)
@@ -132,9 +128,13 @@ local Element = class({
             end
             if self.text then
                 term.setBackgroundColor(backgroundColor)
+                local i = 1
                 term.setTextColor(color)
-                term.setCursorPos(left + style.paddingLeft + 2, top + style.paddingTop + 1)
-                term.write(self.text)
+                for s in self.text:gmatch("[^\r\n]+") do
+                    term.setCursorPos(left + style.paddingLeft + 3, top + style.paddingTop + i)
+                    term.write(s)
+                    i = i + 1
+                end
             end
             table.sort(self.children, function(a, b)
                 return a.style.zIndex < b.style.zIndex
