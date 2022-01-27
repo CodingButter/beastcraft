@@ -1,7 +1,6 @@
 local button = require"beastcraft".ui.button
 local state = require"beastcraft".state
-local MenuContext = require "src.context.menucontext"
-local debugger = require"beastcraft".utils.debugger
+
 local Button = function(props) -- Yeah we got props boys
     local pressed, setPressed = state.useState(false)
     local label = (props.type == "toggle" and pressed) and props.toggleLabel or props.label

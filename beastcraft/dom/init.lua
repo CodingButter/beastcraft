@@ -6,14 +6,16 @@ local root = false
 local focused = {}
 
 local function createElement(tag, props, text)
+
     local elmIndex = #elementStore + 1
     props.id = props.id or elmIndex
-    if focused == props.id then
+    if focused.id == props.id then
         props.focused = true
     end
     local newElement = Elements[tag](props, text)
     elementStore[elmIndex] = newElement
     return newElement
+
 end
 
 local body = createElement("body", {
@@ -25,20 +27,22 @@ local body = createElement("body", {
 })
 elementStore = {}
 local function triggerEvent(event)
+
     local triggered = false
     for i = 1, #elementStore do
         local elm = elementStore[i]
         if elm[event[1]] then
-            local status = elm[event[1]](elm, event)
-            if status == true and triggered == false and elm["do_" .. event[1]] then
-                triggered = true
-                focused = elm.id
-                elm["do_" .. event[1]](elm, event)
+            if elm.style.display ~= "none" then
+                local status = elm[event[1]](elm, event)
+                if status == true and triggered == false and elm["do_" .. event[1]] then
+                    triggered = true
+                    focused = elm
+                    elm["do_" .. event[1]](elm, event)
+                end
             end
         end
     end
 end
-
 listener.addEventListener("monitor_touch", triggerEvent)
 listener.addEventListener("mouse_click", triggerEvent)
 listener.addEventListener("mouse_up", triggerEvent)

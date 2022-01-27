@@ -19,10 +19,16 @@ local Element = class({
         for k, v in pairs(props) do
             self[k] = v
         end
+
         self.id = props.id or self.id
         self.style = Style:new(props.style or {})
         self.tag = tag
-        self.text = text or self.text
+        self.text = text or self.text or ""
+        local iterator = 1
+        for match in self.text:gmatch("[^\r\n]+") do
+            iterator = iterator + 1
+        end
+        self.style.height = math.max(self.style.height, iterator + 1)
         self.focused = props.focused or false
         self:getBounds()
         if focused == self.id then
@@ -31,12 +37,16 @@ local Element = class({
     end,
     appendChild = function(self, _element)
         _element.parent = self
+
         _element.appended = true
         _element:getBounds()
         if _element.style.backgroundColor == "transparent" then
             _element.style.backgroundColor = self.style.backgroundColor
         end
         _element.style.zIndex = self.style.zIndex + _element.style.zIndex
+        if self.style.display ~= "block" then
+            _element.style.display = "none"
+        end
         self.children[#self.children + 1] = _element
     end,
     prependChild = function(self, _element)
@@ -84,18 +94,20 @@ local Element = class({
         self:onClick(event, self)
     end,
     mouse_click = function(self, event)
-        local left, top, width, height = self:getBounds()
-        local x = event[3]
-        local y = event[4]
-        if x >= left and x < left + width and y >= top and y < top + height then
-            return true
+        if self.style.display ~= "none" and (self.parent and self.parent.style.display ~= "none") then
+            local left, top, width, height = self:getBounds()
+            local x = event[3]
+            local y = event[4]
+            if x >= left and x < left + width and y >= top and y < top + height and self.style.display ~= "none" then
+                return true
+            end
         end
         return false
     end,
     getBounds = function(self)
         local offsetLeft = 0
         local offsetTop = 0
-        if self.parent then
+        if self.parent and not self.parent.style.window then
             offsetLeft = self.parent.offsetLeft
             offsetTop = self.parent.offsetTop
         end
@@ -109,11 +121,18 @@ local Element = class({
         return offsetLeft, offsetTop, width, height
     end,
     render = function(self)
-        local style = self.style
-        local color = style.color
-        local backgroundColor = style.backgroundColor
-        local left, top, width, height = self:getBounds()
-        if style.display ~= "none" then
+        if self.style.display ~= "none" then
+            local style = self.style
+            local color = style.color
+            local backgroundColor = style.backgroundColor
+            local left, top, width, height = self:getBounds()
+            local oldTerm = nil
+            if style.window then
+                style.window.reposition(left, top, width, height)
+                left = 1
+                top = 1
+                oldTerm = term.redirect(style.window)
+            end
             if style.backgroundColor ~= "transparent" then
                 if style.borderColor then
                     shapes.drawButton(left, top, width, height, style.borderColor, style.highlightColor,
@@ -136,11 +155,15 @@ local Element = class({
                     i = i + 1
                 end
             end
+
             table.sort(self.children, function(a, b)
                 return a.style.zIndex < b.style.zIndex
             end)
             for k, v in ipairs(self.children) do
                 v:render()
+            end
+            if style.window then
+                term.redirect(oldTerm)
             end
         end
     end,

@@ -13,14 +13,26 @@ local input = class({
     do_focus = function(self, event)
         self.super.do_focus(self, event)
     end,
+    onSubmit = function(self, event)
+    end,
     key = function(self, event)
-        if keys.getName(event[2]) == "backspace" and self.focused then
-            self.text = string.sub(self.text, 1, #self.text - 2) .. "_"
-            if self.text == "__" then
-                self.text = "_"
+        local key = keys.getName(event[2])
+        if self.focused then
+            if key == "backspace" then
+
+                self.text = string.sub(self.text, 1, #self.text - 2) .. "_"
+                if self.text == "__" then
+                    self.text = "_"
+                end
+            end
+            if key == "enter" then
+                self:onSubmit(event)
+                self:onChange("")
+            else
+                self:onChange(self.text)
             end
         end
-        self:onChange(self.text)
+
     end,
     char = function(self, event)
         local newText = ""

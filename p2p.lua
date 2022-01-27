@@ -415,15 +415,32 @@ local WS_SERVER = "ws://beastcraft.codingbutter.com:3028"
 local P2P = class({
     dispatch = {
         connected = function()
-            print("connected")
         end
     },
     constructor = function(self, computerusername)
         self.username = computerusername or os.getComputerID()
+        self.peers = {}
         self.ws, self.err = http.websocket(WS_SERVER)
         if self.ws then
             self.connected = true
         end
+    end,
+    attachEventLoop = function(self, eventLoop)
+        parallel.waitForAll(function()
+            while self.connected do
+                local msg = self.ws.receive()
+                self:parseMessage(msg)
+            end
+        end, function()
+            local timeId = os.startTimer(60)
+            while self.connected == true do
+                local timer = os.pullEvent("timer")
+                if timer[2] == timeId and self.id and self.lobby and self.room then
+                    self:joinRoom(self.lobby, self.room, self.password)
+                    timeId = os.startTimer(60)
+                end
+            end
+        end, eventLoop)
     end,
     captureRecieved = function(self)
 
@@ -484,28 +501,14 @@ local P2P = class({
         self.peers = response.error and {} or response
 
     end,
-    connect = function(self, config)
-        self.lobby = config.lobby
-        self.room = config.room
-        self.password = config.password
+    connect = function(self, lobby, room, password)
+        self.lobby = lobby
+        self.room = room
+        self.password = password
         self:send("connect", {
             username = self.username
         })
-        parallel.waitForAll(function()
-            while self.connected do
-                local msg = self.ws.receive()
-                self:parseMessage(msg)
-            end
-        end, function()
-            local timeId = os.startTimer(60)
-            while self.connected == true do
-                local timer = os.pullEvent("timer")
-                if timer[2] == timeId and self.id then
-                    self:joinRoom(self.lobby, self.room, self.password)
-                    timeId = os.startTimer(60)
-                end
-            end
-        end, config.eventLoop)
+
     end,
     close = function(self)
         self.connected = false

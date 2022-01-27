@@ -6,7 +6,7 @@ local Input = function(props) -- Yeah we got props boys
     local label, setLabel = state.useState("")
     return input({
         id = "main-input",
-        placeholder = "Input field",
+        placeholder = "Message",
         maxLength = 15,
         style = {
             left = 3,
