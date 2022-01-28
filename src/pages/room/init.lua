@@ -55,6 +55,7 @@ local Room = function(props)
             setMessage = setMessage,
             submitMessage = submitMessage
         }), div({
+            id = "room-name",
             style = {
                 width = 4,
                 height = 2,

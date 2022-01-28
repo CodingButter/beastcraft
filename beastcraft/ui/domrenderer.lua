@@ -12,10 +12,11 @@ local function addChildren(el)
         addChildren(children)
         return el
     end
-
     for _, v in pairs(children) do
-        addChildren(v)
-        el:appendChild(v)
+        if el.style.display ~= "none" then
+            addChildren(v)
+            el:appendChild(v)
+        end
     end
     return el
 end
@@ -31,7 +32,7 @@ local function render()
     utils.window.setVisible(false)
     dom.renderElement(rootElement)
     utils.window.setVisible(true)
-
+    firstRender = false
 end
 
 local function renderDom(rc, re)

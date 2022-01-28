@@ -32,14 +32,13 @@ local function triggerEvent(event)
     for i = 1, #elementStore do
         local elm = elementStore[i]
         if elm[event[1]] then
-            if elm.style.display ~= "none" then
-                local status = elm[event[1]](elm, event)
-                if status == true and triggered == false and elm["do_" .. event[1]] then
-                    triggered = true
-                    focused = elm
-                    elm["do_" .. event[1]](elm, event)
-                end
+            local status = elm[event[1]](elm, event)
+            if status == true and triggered == false and elm["do_" .. event[1]] then
+                triggered = true
+                focused = elm
+                elm["do_" .. event[1]](elm, event)
             end
+
         end
     end
 end

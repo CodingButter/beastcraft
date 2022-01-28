@@ -4,7 +4,7 @@ local Style = require("beastcraft.dom.style")
 local listener = require("beastcraft.managers.listeners")
 local shapes = require("beastcraft.core.shape")
 local Selector = require("beastcraft.dom.selector")
-local term = term
+local cache = {}
 local Element = class({
     id = nil,
     children = {},
@@ -19,7 +19,7 @@ local Element = class({
         for k, v in pairs(props) do
             self[k] = v
         end
-
+        self.rerender = true
         self.id = props.id or self.id
         self.style = Style:new(props.style or {})
         self.tag = tag
@@ -44,10 +44,27 @@ local Element = class({
             _element.style.backgroundColor = self.style.backgroundColor
         end
         _element.style.zIndex = self.style.zIndex + _element.style.zIndex
-        if self.style.display ~= "block" then
-            _element.style.display = "none"
-        end
+
         self.children[#self.children + 1] = _element
+        local props = {
+            style = _element.style,
+            text = _element.text,
+            bounds = table.pack(_element:getBounds()),
+            display = _element.style.display,
+            parnetDisplay = self.style.display
+        }
+        local _cache = cache[_element.id]
+
+        if _cache then
+
+            if utils.table.is(_cache.style, props.style) and _cache.text == props.text then
+                _element.rerender = false
+            end
+            if self.parent and utils.table.is(_cache.bounds, props.bounds) and _cache.text == props.text then
+                self.rerender = false
+            end
+        end
+        cache[_element.id] = props
     end,
     prependChild = function(self, _element)
         _element.parent = self
@@ -121,18 +138,21 @@ local Element = class({
         return offsetLeft, offsetTop, width, height
     end,
     render = function(self)
-        if self.style.display ~= "none" then
-            local style = self.style
-            local color = style.color
-            local backgroundColor = style.backgroundColor
-            local left, top, width, height = self:getBounds()
-            local oldTerm = nil
-            if style.window then
-                style.window.reposition(left, top, width, height)
-                left = 1
-                top = 1
-                oldTerm = term.redirect(style.window)
-            end
+
+        local style = self.style
+        local color = style.color
+        local backgroundColor = style.backgroundColor
+        local left, top, width, height = self:getBounds()
+        local oldTerm = nil
+        if style.window then
+            style.window.reposition(left, top, width, height)
+            left = 1
+            top = 1
+            oldTerm = term.redirect(style.window)
+        end
+        if self.rerender and width > 0 and height > 0 then
+
+            utils.debugger.print(self.id .. " rendered")
             if style.backgroundColor ~= "transparent" then
                 if style.borderColor then
                     shapes.drawButton(left, top, width, height, style.borderColor, style.highlightColor,
@@ -155,17 +175,17 @@ local Element = class({
                     i = i + 1
                 end
             end
-
-            table.sort(self.children, function(a, b)
-                return a.style.zIndex < b.style.zIndex
-            end)
-            for k, v in ipairs(self.children) do
-                v:render()
-            end
-            if style.window then
-                term.redirect(oldTerm)
-            end
         end
+        table.sort(self.children, function(a, b)
+            return a.style.zIndex < b.style.zIndex
+        end)
+        for k, v in ipairs(self.children) do
+            v:render()
+        end
+        if style.window then
+            term.redirect(oldTerm)
+        end
+
     end,
     getUID = function(self)
         if self.id == nil then

@@ -1,12 +1,12 @@
 local input = require"beastcraft".ui.input
 local debugger = require"beastcraft".utils.debugger
 local state = require"beastcraft".state
-
+local inputs = 1
 local Input = function(props) -- Yeah we got props boys
     local label, setLabel = state.useState("")
     return input({
-        id = "main-input",
-        placeholder = "Message",
+        id = props.id,
+        placeholder = props.placeholder,
         maxLength = 15,
         style = {
             left = 3,

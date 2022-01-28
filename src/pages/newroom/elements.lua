@@ -45,7 +45,7 @@ local UserList = function(props)
         style = props.style,
         children = map(props.users, function(user, i)
             return div({
-                id = user.username .. "-btn",
+                id = user.username .. "-div-" .. i,
                 style = {
                     width = props.style.width,
                     height = height,

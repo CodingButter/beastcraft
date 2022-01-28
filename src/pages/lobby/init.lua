@@ -27,6 +27,7 @@ local Lobby = function(props)
             borderColor = colors.yellow
         },
         children = {RoomList({
+            id = 'room-list-background',
             style = {
                 width = 18,
                 left = 13,
@@ -38,6 +39,7 @@ local Lobby = function(props)
             itemsPerPage = itemsPerPage,
             rooms = roomctx.roomList
         }), NewRoom({
+            id = "new-room-background",
             style = {
                 width = 13,
                 left = WIDTH - 18,

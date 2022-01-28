@@ -24,7 +24,7 @@ local ChatArea = function(props)
         },
         children = map(props.chats, function(chat, i)
             return div({
-                id = chat.username .. tostring(math.floor((math.random() * 1000)) / 1000),
+                id = chat.username .. "-" .. i,
                 style = {
                     display = i <= 4 and "block" or "none",
                     width = WIDTH - 7,
