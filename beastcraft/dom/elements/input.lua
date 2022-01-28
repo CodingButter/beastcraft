@@ -20,9 +20,8 @@ local input = class({
         local key = keys.getName(event[2])
         if self.focused then
             if key == "backspace" then
-                self:onChange(string.sub(self.text, 1, #self.text - 1))
-            end
-            if key == "enter" then
+                self:onChange(string.sub(self.text, 1, #self.text - 2))
+            elseif key == "enter" then
                 self:onSubmit(event)
                 self:onChange("")
             else

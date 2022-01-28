@@ -48,7 +48,6 @@ local NewRoom = function(props)
         style = props.style,
         label = "New Room",
         onClick = function(self, event)
-            debugger.print("clicked")
             setPage("NewRoom")
         end
     })
