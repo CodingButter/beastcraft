@@ -4,7 +4,7 @@ local Element = require("beastcraft.dom.elements.element")
 local input = class({
     constructor = function(self, props, text)
         text = text or ""
-        local value = (#text > 1 or props.focused) and text or props.placeholder
+        local value = (#text > 0 or props.focused) and text or props.placeholder
         self.super.constructor(self, "input", props, value)
     end,
     onChange = function(self)
