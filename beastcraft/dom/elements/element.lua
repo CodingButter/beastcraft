@@ -51,13 +51,15 @@ local Element = class({
             text = _element.text,
             bounds = table.pack(_element:getBounds()),
             display = _element.style.display,
-            parnetDisplay = self.style.display
+            parnetDisplay = self.style.display,
+            focused = _element.focused
         }
         local _cache = cache[_element.id]
 
         if _cache then
 
-            if utils.table.is(_cache.style, props.style) and _cache.text == props.text then
+            if utils.table.is(_cache.style, props.style) and
+                (_element.tag ~= 'input' or _cache.focused == props.focused) and _cache.text == props.text then
                 _element.rerender = false
             end
             if self.parent and utils.table.is(_cache.bounds, props.bounds) and _cache.text == props.text then
@@ -150,9 +152,12 @@ local Element = class({
             top = 1
             oldTerm = term.redirect(style.window)
         end
+        local endBar = ""
+        if self.tag == "input" and self.focused then
+            endBar = "_"
+        end
         if self.rerender and width > 0 and height > 0 then
 
-            utils.debugger.print(self.id .. " rendered")
             if style.backgroundColor ~= "transparent" then
                 if style.borderColor then
                     shapes.drawButton(left, top, width, height, style.borderColor, style.highlightColor,
@@ -171,6 +176,8 @@ local Element = class({
                 term.setTextColor(color)
                 for s in self.text:gmatch("[^\r\n]+") do
                     term.setCursorPos(left + style.paddingLeft + 3, top + style.paddingTop + i)
+
+                    s = s .. endBar
                     term.write(s)
                     i = i + 1
                 end

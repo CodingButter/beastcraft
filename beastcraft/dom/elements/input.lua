@@ -10,6 +10,7 @@ local input = class({
     onChange = function(self)
 
     end,
+
     do_focus = function(self, event)
         self.super.do_focus(self, event)
     end,
@@ -19,11 +20,7 @@ local input = class({
         local key = keys.getName(event[2])
         if self.focused then
             if key == "backspace" then
-
-                self.text = string.sub(self.text, 1, #self.text - 2) .. "_"
-                if self.text == "__" then
-                    self.text = "_"
-                end
+                self:onChange(string.sub(self.text, 1, #self.text - 1))
             end
             if key == "enter" then
                 self:onSubmit(event)
@@ -38,7 +35,7 @@ local input = class({
         local newText = ""
         if self.focused then
             if self.maxLength and #self.text <= self.maxLength then
-                self.text = string.sub(self.text, 1, #self.text - 1) .. event[2] .. "_"
+                self.text = string.sub(self.text, 1, #self.text) .. event[2]
             end
             self:onChange(self.text)
         end

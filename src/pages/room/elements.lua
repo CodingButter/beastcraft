@@ -82,7 +82,7 @@ local MessageInput = function(props) -- Yeah we got props boys
             borderColor = colors.yellow
         },
         onSubmit = function(self, event)
-            props.submitMessage(string.sub(props.message, 1, #props.message - 1))
+            props.submitMessage(props.message)
         end,
         onChange = function(self, value)
             props.setMessage(value)
